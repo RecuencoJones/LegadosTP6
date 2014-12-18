@@ -8,7 +8,7 @@ import java.io.File;
  */
 public class MidiTest {
 
-    private static final String FILENAME = "midi1.mid";
+    private static final String FILENAME = "midi7.mid";
     public static final int NOTE_ON = 0x90;
     public static final int NOTE_OFF = 0x80;
     public static final String[] NOTE_NAMES = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
@@ -25,8 +25,9 @@ public class MidiTest {
             so a program fed with those notes translated to program input would not be monotonous.
 
             It's so beautiful that I didn't comment it to see the output tho.
+            I commented it bc reasons.
          */
-        Track trs = app.preparsing(sequence);
+        //Track trs = app.preparsing(sequence);
 
         Sequencer sq = MidiSystem.getSequencer();
         sq.setSequence(sequence);
