@@ -10,7 +10,7 @@ import java.util.Scanner;
  */
 public class MidiTest {
 
-    private static String FILENAME = "midi1.mid";
+    private static String FILENAME;
     public static final int NOTE_ON = 0x90;
     public static final int NOTE_OFF = 0x80;
     public static final String[] NOTE_NAMES = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
