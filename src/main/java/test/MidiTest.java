@@ -1,20 +1,24 @@
 package test;
 
 import javax.sound.midi.*;
+import javax.swing.*;
 import java.io.File;
+import java.util.Scanner;
 
 /**
  * Created by David Recuenco on 17/12/2014.
  */
 public class MidiTest {
 
-    private static final String FILENAME = "midi7.mid";
+    private static String FILENAME = "midi1.mid";
     public static final int NOTE_ON = 0x90;
     public static final int NOTE_OFF = 0x80;
     public static final String[] NOTE_NAMES = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
     public static final String[] MOVES =      {"^", "^",  "^", "v",  "v", "v", "<",  "<", "<",  ">", ">",  ">"};
 
     public static void main(String[] args) throws Exception{
+
+        askForFile();
 
         MidiTest app = new MidiTest();
         Sequence sequence = app.getFile();
@@ -45,6 +49,22 @@ public class MidiTest {
 
         sq.stop();
         sq.close();
+    }
+
+    private static void askForFile(){
+        String val = JOptionPane.showInputDialog("Select file [1-9]: ");
+        try {
+            int index = Integer.parseInt(val);
+            if(index < 1 || index > 9){
+                System.out.println(" > Not a valid file.");
+                askForFile();
+            }else{
+                FILENAME = "midi"+index+".mid";
+            }
+        }catch(Exception e){
+            System.out.println(" > Not a valid file.");
+            askForFile();
+        }
     }
 
     private Sequence getFile() throws Exception{
