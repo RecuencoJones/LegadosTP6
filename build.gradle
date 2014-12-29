@@ -13,6 +13,6 @@ dependencies {
 
 task run(type: JavaExec) {
     description = "Midi player"
-    main = 'test.MidiTest'
+    main = 'main.Main'
     classpath = sourceSets.main.runtimeClasspath
 }

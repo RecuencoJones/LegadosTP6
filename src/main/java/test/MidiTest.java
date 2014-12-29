@@ -1,5 +1,7 @@
 package test;
 
+import obs.ColorObserver;
+
 import javax.sound.midi.*;
 import javax.swing.*;
 import java.io.File;
@@ -8,20 +10,30 @@ import java.util.Scanner;
 /**
  * Created by David Recuenco on 17/12/2014.
  */
-public class MidiTest {
+public class MidiTest implements Runnable {
 
+    private static TestReceiver receiver;
     private static String FILENAME;
+    private static int MODE;
     public static final int NOTE_ON = 0x90;
     public static final int NOTE_OFF = 0x80;
     public static final String[] NOTE_NAMES = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
     public static final String[] MOVES =      {"^", "^",  "^", "v",  "v", "v", "<",  "<", "<",  ">", ">",  ">"};
 
-    public static void main(String[] args) throws Exception{
+    public MidiTest(TestReceiver receiver){
+        this.receiver = receiver;
+    }
+
+    public void run() {
 
         askForFile();
-
-        MidiTest app = new MidiTest();
-        Sequence sequence = app.getFile();
+        //askForMode();
+        Sequence sequence = null;
+        try {
+            sequence = this.getFile();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         /*
             ==== WARNING: USELESS METHOD ====
@@ -31,31 +43,44 @@ public class MidiTest {
             It's so beautiful that I didn't comment it to see the output tho.
             I commented it bc reasons.
          */
-        //Track trs = app.preparsing(sequence);
+        //int bestTrack = app.preparsing(sequence);
 
-        Sequencer sq = MidiSystem.getSequencer();
-        sq.setSequence(sequence);
+        Sequencer sq = null;
+        try {
+            sq = MidiSystem.getSequencer();
+            sq.setSequence(sequence);
 
-        //We actually don't need this anymore :D
-        //sq.setTrackSolo(bestTrack - 1, true);
+            //We actually don't need this anymore :D
+            //sq.setTrackSolo(bestTrack - 1, true);
 
-        Receiver r = new TestReceiver();
-        sq.getTransmitter().setReceiver(r);
+            final Receiver r = receiver;
+            sq.getTransmitter().setReceiver(r);
 
-        sq.open();
-        sq.start();
+            sq.open();
+            sq.start();
 
-        app.waitEndOfSong(sq);
+            this.waitEndOfSong(sq);
 
-        sq.stop();
-        sq.close();
+            sq.stop();
+            sq.close();
+
+            System.exit(0);
+
+
+        } catch (MidiUnavailableException e) {
+            e.printStackTrace();
+        } catch (InvalidMidiDataException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     private static void askForFile(){
-        String val = JOptionPane.showInputDialog("Select file [1-9]: ");
+        String val = JOptionPane.showInputDialog("Select file [1-12]: ");
         try {
             int index = Integer.parseInt(val);
-            if(index < 1 || index > 9){
+            if(index < 1 || index > 12){
                 System.out.println(" > Not a valid file.");
                 askForFile();
             }else{
@@ -67,11 +92,27 @@ public class MidiTest {
         }
     }
 
+    private static void askForMode(){
+        String val = JOptionPane.showInputDialog("Select mode [1-2]: ");
+        try {
+            int index = Integer.parseInt(val);
+            if(index < 1 || index > 2){
+                System.out.println(" > Not a valid mode.");
+                askForMode();
+            }else{
+                MODE = index;
+            }
+        }catch(Exception e){
+            System.out.println(" > Not a valid mode.");
+            askForFile();
+        }
+    }
+
     private Sequence getFile() throws Exception{
         return MidiSystem.getSequence(new File(getClass().getClassLoader().getResource(FILENAME).getFile()));
     }
 
-    private Track preparsing(Sequence sequence){
+    private int preparsing(Sequence sequence){
         int trackNumber = 0;
         int bestTrack = 0;
         //count measures number of ShortMessages
@@ -122,9 +163,9 @@ public class MidiTest {
         }
 
         System.out.println("Best track is: "+bestTrack);
-        Track trs = sequence.getTracks()[bestTrack-1];
+        //Track trs = sequence.getTracks()[bestTrack-1];
 
-        return trs;
+        return bestTrack;
     }
 
     private void waitEndOfSong(Sequencer sq){
