@@ -7,7 +7,7 @@ import java.awt.geom.Ellipse2D;
 /**
  * Created by David Recuenco on 28/12/2014.
  */
-public class Player extends JComponent {
+public class Player extends JPanel {
 
     public static enum Move {UP, DOWN, LEFT, RIGHT};
 
@@ -17,7 +17,7 @@ public class Player extends JComponent {
 
     public Player(Ellipse2D.Double objective){
         this.objective = objective;
-        this.player = new Ellipse2D.Double(500,500,radius ,radius );
+        this.player = new Ellipse2D.Double(0,0,radius ,radius );
     }
 
     public void move(Move m){
@@ -60,19 +60,13 @@ public class Player extends JComponent {
         checkSolution();
     }
 
+    @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setPaint(Color.RED);
         g2d.fill(player);
-        g2d.draw(player);
-    }
-
-    public void paint(Graphics g){
-        super.paint(g);
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.setPaint(Color.RED);
-        g2d.fill(player);
+        g2d.setPaint(Color.BLACK);
         g2d.draw(player);
     }
 
