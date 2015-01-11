@@ -29,56 +29,64 @@ public class ColorObserver implements Observer {
 
     public ColorObserver(){
         JFrame jf = new JFrame();
+        jf.setTitle("Color Observer");
         jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         panel = new JPanel();
         panel.setBackground(Color.BLACK);
         jf.add(panel);
         jf.pack();
         jf.setSize(500,500);
-        jf.setLocationRelativeTo(null);
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice device = ge.getDefaultScreenDevice();
+        Rectangle rectangle = device.getDefaultConfiguration().getBounds();
+        int x = (int) (rectangle.getMaxX()*0.4);
+        int y = (int) (rectangle.getMaxY()*0.25);
+        jf.setLocation(x, y);
         jf.setVisible(true);
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        if(arg instanceof int[]){
+        if(arg instanceof int[]) {
             int[] note = (int[]) arg;
-            switch(note[1]){
-                case 0:
-                    panel.setBackground(colors[note[0]].darker().darker().darker().darker().darker());
-                    break;
-                case 1:
-                    panel.setBackground(colors[note[0]].darker().darker().darker().darker());
-                    break;
-                case 2:
-                    panel.setBackground(colors[note[0]].darker().darker().darker());
-                    break;
-                case 3:
-                    panel.setBackground(colors[note[0]].darker().darker());
-                    break;
-                case 4:
-                    panel.setBackground(colors[note[0]].darker());
-                    break;
-                case 5:
-                    panel.setBackground(colors[note[0]]);
-                    break;
-                case 6:
-                    panel.setBackground(colors[note[0]].brighter());
-                    break;
-                case 7:
-                    panel.setBackground(colors[note[0]].brighter().brighter());
-                    break;
-                case 8:
-                    panel.setBackground(colors[note[0]].brighter().brighter().brighter());
-                    break;
-                case 9:
-                    panel.setBackground(colors[note[0]].brighter().brighter().brighter().brighter());
-                    break;
-                case 10:
-                    panel.setBackground(colors[note[0]].brighter().brighter().brighter().brighter().brighter());
-                    break;
-                default:
-                    panel.setBackground(colors[note[0]]);
+            if (note[3] == 1) {
+                switch (note[1]) {
+                    case 0:
+                        panel.setBackground(colors[note[0]].darker().darker().darker().darker().darker());
+                        break;
+                    case 1:
+                        panel.setBackground(colors[note[0]].darker().darker().darker().darker());
+                        break;
+                    case 2:
+                        panel.setBackground(colors[note[0]].darker().darker().darker());
+                        break;
+                    case 3:
+                        panel.setBackground(colors[note[0]].darker().darker());
+                        break;
+                    case 4:
+                        panel.setBackground(colors[note[0]].darker());
+                        break;
+                    case 5:
+                        panel.setBackground(colors[note[0]]);
+                        break;
+                    case 6:
+                        panel.setBackground(colors[note[0]].brighter());
+                        break;
+                    case 7:
+                        panel.setBackground(colors[note[0]].brighter().brighter());
+                        break;
+                    case 8:
+                        panel.setBackground(colors[note[0]].brighter().brighter().brighter());
+                        break;
+                    case 9:
+                        panel.setBackground(colors[note[0]].brighter().brighter().brighter().brighter());
+                        break;
+                    case 10:
+                        panel.setBackground(colors[note[0]].brighter().brighter().brighter().brighter().brighter());
+                        break;
+                    default:
+                        panel.setBackground(colors[note[0]]);
+                }
             }
         }
     }

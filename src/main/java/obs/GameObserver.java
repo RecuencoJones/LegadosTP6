@@ -1,7 +1,5 @@
 package obs;
 
-import game.myDemo;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.Observer;
@@ -21,24 +19,40 @@ public class GameObserver implements Observer {
         movements[3] = Player.Move.LEFT;
         movements[4] = Player.Move.LEFT;
         movements[5] = Player.Move.LEFT;
-        movements[6] = Player.Move.RIGHT;
-        movements[7] = Player.Move.RIGHT;
-        movements[8] = Player.Move.RIGHT;
-        movements[9] = Player.Move.DOWN;
-        movements[10] = Player.Move.DOWN;
-        movements[11] = Player.Move.DOWN;
+        movements[6] = Player.Move.DOWN;
+        movements[7] = Player.Move.DOWN;
+        movements[8] = Player.Move.DOWN;
+        movements[9] = Player.Move.RIGHT;
+        movements[10] = Player.Move.RIGHT;
+        movements[11] = Player.Move.RIGHT;
     }
-    private static myDemo demo;
+    private static Player player;
+    private static JFrame jf;
 
     public GameObserver(){
-        demo = new myDemo(12);
+        jf = new JFrame();
+        jf.setTitle("Game Observer");
+        jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        player = new Player();
+        jf.add(player);
+        jf.pack();
+        jf.setSize(BOUNDARY,BOUNDARY);
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice device = ge.getDefaultScreenDevice();
+        Rectangle rectangle = device.getDefaultConfiguration().getBounds();
+        int x = 0;
+        int y = (int) (rectangle.getMaxY()*0.25);
+        jf.setLocation(x,y);
+        jf.update(jf.getGraphics());
+        jf.setVisible(true);
     }
 
     @Override
     public void update(java.util.Observable o, Object arg) {
         if(arg instanceof int[]) {
             int[] note = (int[]) arg;
-            demo.move(movements[note[0]]);
+            player.move(movements[note[0]]);
+            jf.update(jf.getGraphics());
         }
     }
 }
