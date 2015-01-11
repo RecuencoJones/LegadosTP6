@@ -52,11 +52,11 @@ public class MidiTest implements Runnable {
     }
 
     private static void askForFile(){
-        String val = JOptionPane.showInputDialog("Select file [1-12]: ");
+        String val = JOptionPane.showInputDialog("Select file [1-14]: ");
         try {
             if(val.equals("exit")) { System.exit(0); }
             int index = Integer.parseInt(val);
-            if(index < 1 || index > 12){
+            if(index < 1 || index > 14){
                 System.out.println(" > Not a valid file.");
                 askForFile();
             }else{
