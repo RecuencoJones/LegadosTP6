@@ -1,6 +1,7 @@
 LegadosTP6
 ==========
 
+
 This repository contains a Midi app project that, given a **.mid** file, plays it and shows on stdout the notes being played on which channel.
 
 Execute `gradle run` to start the app.
