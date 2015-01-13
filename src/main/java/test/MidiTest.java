@@ -77,10 +77,10 @@ public class MidiTest implements Runnable {
     }
 
     private static void askForFile(){
-        String val = JOptionPane.showInputDialog("Select file [1-12]: ");
+        String val = JOptionPane.showInputDialog("Select file [1-15]: ");
         try {
             int index = Integer.parseInt(val);
-            if(index < 1 || index > 12){
+            if(index < 1 || index > 15){
                 System.out.println(" > Not a valid file.");
                 askForFile();
             }else{
@@ -88,22 +88,6 @@ public class MidiTest implements Runnable {
             }
         }catch(Exception e){
             System.out.println(" > Not a valid file.");
-            askForFile();
-        }
-    }
-
-    private static void askForMode(){
-        String val = JOptionPane.showInputDialog("Select mode [1-2]: ");
-        try {
-            int index = Integer.parseInt(val);
-            if(index < 1 || index > 2){
-                System.out.println(" > Not a valid mode.");
-                askForMode();
-            }else{
-                MODE = index;
-            }
-        }catch(Exception e){
-            System.out.println(" > Not a valid mode.");
             askForFile();
         }
     }

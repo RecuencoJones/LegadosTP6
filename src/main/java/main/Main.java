@@ -1,7 +1,6 @@
 package main;
 
 import obs.ColorObserver;
-import obs.GameObserver;
 import test.MidiTest;
 import test.TestReceiver;
 
@@ -14,9 +13,7 @@ public class Main {
 
         final TestReceiver tr = new TestReceiver();
         final ColorObserver co = new ColorObserver();
-        final GameObserver go = new GameObserver();
         tr.addObserver(co);
-        tr.addObserver(go);
         final MidiTest mt = new MidiTest(tr);
 
         Thread t = new Thread(mt);

@@ -21,7 +21,7 @@ public class TestReceiver extends Observable implements Receiver {
         }
     }*/
     private static final String[] NOTE_NAMES = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
-    private int[] data = new int[2];
+    private int[] data = new int[4];
 
     @Override
     public void send(MidiMessage message, long timeStamp) {
@@ -29,21 +29,23 @@ public class TestReceiver extends Observable implements Receiver {
             ShortMessage sm = (ShortMessage) message;
             if (sm.getCommand() == NOTE_ON) {
                 int key = sm.getData1();
-                data[1] = (key / 12)-1;
                 data[0] = key % 12;
+                data[1] = (key / 12)-1;
+                data[2] = sm.getChannel();
+                data[3] = 1;
                 String noteName = NOTE_NAMES[data[0]];
 
                 setChanged();
                 notifyObservers(data);
                 System.out.println(setNoteAtPosition(sm.getChannel(),noteName));
-                //row[note] = '+';
             }
-            /*else if(sm.getCommand() == NOTE_OFF){
-                int key = sm.getData1();
-                int note = key % NOTES;
-                System.out.println("\n" + new String(row));
-                row[note] = '-';
-            }*/
+            else if(sm.getCommand() == NOTE_OFF){
+                data[2] = sm.getChannel();
+                data[3] = 0;
+
+                setChanged();
+                notifyObservers(data);
+            }
         }
     }
 
